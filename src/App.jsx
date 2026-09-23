@@ -706,20 +706,20 @@ export default function App() {
     switch(active) {
     case "home": return <div className="home-dashboard">
       <div className="home-topline"><span>DAVID / PERSONAL HUB</span><a href="https://david-roadmap.vercel.app/">Rozcestník ↗</a></div>
-      <section className="hub-hero"><div className="hero-shade"/><div className="hub-hero-copy"><span>PROSTOR PRO KAŽDODENNÍ POSUN</span><h1>Žít naplno.<br/><em>Růst vědomě.</em></h1><p>Inspirace, pohyb a dlouhodobé cíle. Všechno, k čemu se chci vracet, na jednom místě.</p><button onClick={()=>setActive('motivation')}>Najít dnešní inspiraci ↗</button></div></section>
-      <div className="home-section-title"><h2>Vyber svůj směr</h2><span>Malý krok. Každý den.</span></div>
+      <section className="hub-hero"><div className="hero-shade"/><div className="hub-hero-copy"><span>DAVIDŮV OSOBNÍ ZÁPISNÍK</span><h1>Místo pro trénink<br/><em>i další plány.</em></h1><p>Sbírám si tu videa a knihy spolu s poznámkami k ultimate frisbee, regeneraci a zdraví. Finanční kalkulačky mi pomáhají porovnat, jak se mění plán podle výdajů a úspor.</p><button onClick={()=>setActive('motivation')}>Prohlédnout videa ↗</button></div></section>
+      <div className="home-section-title"><h2>Čemu se chceš věnovat?</h2><span>Vyber si téma.</span></div>
       <div className="home-paths">{[
-        {id:'mindset',title:'Klidná mysl',detail:'Mindset & filozofie',image:'forest'},
-        {id:'training',title:'Silnější tělo',detail:'Trénink & pohyb',image:'mountains'},
-        {id:'longevity',title:'Dlouhý horizont',detail:'Zdraví & longevity',image:'lake'}
+        {id:'mindset',title:'Myšlenky a poznámky',detail:'Mindset & filozofie',image:'forest'},
+        {id:'training',title:'Trénink na hřiště',detail:'Trénink & pohyb',image:'mountains'},
+        {id:'longevity',title:'Zdraví a regenerace',detail:'Zdraví & longevity',image:'lake'}
       ].map(item=><button className="home-path" key={item.id} onClick={()=>setActive(item.id)}><img src={'/images/'+item.image+'.jpg'} alt=""/><span><small>{item.detail}</small><strong>{item.title}</strong></span><b>↗</b></button>)}</div>
-      <div className="home-utilities"><div><small>MYŠLENÍ V SOUVISLOSTECH</small><h2>Dnešní rozhodnutí.<br/>Budoucí svoboda.</h2></div><button onClick={()=>setActive('fire-calc')}>FIRE kalkulačka ↗</button><button onClick={()=>setActive('books')}>Moje knihovna ↗</button></div>
+      <div className="home-utilities"><div><small>KNIHOVNA A FINANČNÍ PLÁN</small><h2>Knihy k přečtení<br/>a plán úspor.</h2></div><button onClick={()=>setActive('fire-calc')}>FIRE kalkulačka ↗</button><button onClick={()=>setActive('books')}>Moje knihovna ↗</button></div>
     </div>;
 
 
     case "motivation": return (
       <div>
-        <SectionHeader title="Motivation" subtitle="25 videos that reset your perspective. Click play when you need to remember why you started." />
+        <SectionHeader title="Motivation" subtitle="Talks and interviews I return to. Filter by topic and choose something to watch." />
         <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 24 }}>
           {VIDEO_TAGS.map(t=>(
             <button key={t} onClick={()=>setVideoFilter(t)} style={{
@@ -739,7 +739,7 @@ export default function App() {
 
     case "mindset": return (
       <div>
-        <SectionHeader title="Mindset" subtitle="10 themed collections. 50+ quotes that rewire how you think." />
+        <SectionHeader title="Mindset" subtitle="Quotes grouped by theme. Pick an idea, reflect on it, and add your own notes." />
         {/* Category tabs */}
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 28 }}>
           {MINDSET_CATEGORIES.map((cat,i)=>(
@@ -767,7 +767,7 @@ export default function App() {
 
     case "philosophy": return (
       <div>
-        <SectionHeader title="Philosophy" subtitle="Timeless frameworks for navigating chaos. Expand any card." />
+        <SectionHeader title="Philosophy" subtitle="Ideas about decisions, uncertainty, and what matters. Open a card to read more." />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 16 }}>
           {PHILOSOPHY.map((c,i)=><PhiloCard key={i} card={c} index={i} />)}
         </div>
@@ -777,7 +777,7 @@ export default function App() {
 
     case "training": return (
       <div>
-        <SectionHeader title="Training" subtitle="Systematic physical preparation. HRV-guided, evidence-based, sport-specific." />
+        <SectionHeader title="Training" subtitle="Notes on strength, conditioning, and recovery for ultimate frisbee." />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 16 }}>
           {TRAINING.map((s,i)=>(
             <div key={i} style={{ background: C.card, borderRadius: 16, padding: 24, border: '1px solid '+C.border, animation: `fadeUp 0.5s ease ${i*0.08}s both` }}>
@@ -798,7 +798,7 @@ export default function App() {
 
     case "longevity": return (
       <div>
-        <SectionHeader title="Longevity" subtitle="Healthspan > Lifespan. Click any topic to explore the research." />
+        <SectionHeader title="Longevity" subtitle="Notes on sleep, movement, nutrition, and healthy aging. Open a topic to explore it." />
         <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
           {LONGEVITY_DATA.map((item,i)=><LongevityCard key={i} item={item} index={i} />)}
         </div>
@@ -808,7 +808,7 @@ export default function App() {
 
     case "books": return (
       <div>
-        <SectionHeader title="Bookshelf" subtitle="Books that changed how I think. Curated, not collected." />
+        <SectionHeader title="Bookshelf" subtitle="My reading list, with a short takeaway from each book." />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: 14 }}>
           {BOOK_SHELF.map((b,i)=>(
             <CardHover key={i} style={{ padding: '20px 18px', animation: `fadeUp 0.4s ease ${i*0.04}s both` }}>
@@ -824,7 +824,7 @@ export default function App() {
 
     case "improvement": return (
       <div>
-        <SectionHeader title="Self-Improvement" subtitle="Systems over goals. Identity over outcomes. Compound daily." />
+        <SectionHeader title="Self-Improvement" subtitle="Practical approaches to habits, focus, and learning. Keep notes on what works for you." />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 16 }}>
           {SELF_IMPROVEMENT.map((s,i)=>(
             <div key={i} style={{ background: C.card, borderRadius: 16, padding: 24, border: '1px solid '+C.border, borderTop: `2px solid ${s.color}22`, animation: `fadeUp 0.5s ease ${i*0.06}s both` }}>
@@ -841,7 +841,7 @@ export default function App() {
 
     case "fire": return (
       <div>
-        <SectionHeader title="Financial Freedom" subtitle="FIRE fundamentals. Build the machine, then let it run." />
+        <SectionHeader title="Financial Freedom" subtitle="The basics of saving, investing, and planning for financial independence." />
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: 16 }}>
           {FIRE_CONCEPTS.map((s,i)=>(
             <div key={i} style={{ background: C.card, borderRadius: 16, padding: 24, border: '1px solid '+C.border, animation: `fadeUp 0.5s ease ${i*0.06}s both` }}>
@@ -859,7 +859,7 @@ export default function App() {
 
     case "fire-calc": return (
       <div>
-        <SectionHeader title="FIRE Calculator" subtitle="Model your path to financial independence. Adjust the sliders to see projections across 5-40 years." />
+        <SectionHeader title="FIRE Calculator" subtitle="Adjust income, spending, savings, and expected return to compare long-term scenarios. These are estimates, not guaranteed outcomes." />
         <FIRECalculator />
         <NoteBox sectionKey="fire-calc" />
       </div>
@@ -867,7 +867,7 @@ export default function App() {
 
     case "portfolio": return (
       <div>
-        <SectionHeader title="Portfolio Projector" subtitle="Stocks, crypto, bonds, real estate, debt. See how your allocation grows across decades." />
+        <SectionHeader title="Portfolio Projector" subtitle="Explore how contributions, asset allocation, and assumed returns affect a portfolio over time. Projections are illustrative." />
         <InvestmentCalculator />
         <NoteBox sectionKey="portfolio" />
       </div>
@@ -876,7 +876,7 @@ export default function App() {
     // PRIVATE
     case "my-life": return (
       <div>
-        <SectionHeader title="My Life" subtitle="Who I am. What I stand for. Where I'm going." isPrivate />
+        <SectionHeader title="My Life" subtitle="My background, values, and priorities." isPrivate />
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {MY_LIFE.map((item,i)=>(
             <div key={i} style={{ background: 'rgba(212,118,78,0.04)', borderRadius: 16, padding: '22px 26px', border: '1px solid rgba(212,118,78,0.1)', borderLeft: '3px solid rgba(212,118,78,0.4)', animation: `fadeUp 0.5s ease ${i*0.08}s both` }}>
@@ -891,7 +891,7 @@ export default function App() {
 
     case "my-career": return (
       <div>
-        <SectionHeader title="My Career" subtitle="Not linear — but intentional." isPrivate />
+        <SectionHeader title="My Career" subtitle="Roles, experience, and what I want to work on next." isPrivate />
         <div style={{ position: 'relative', paddingLeft: 32 }}>
           <div style={{ position: 'absolute', left: 9, top: 0, bottom: 0, width: 1, background: 'linear-gradient(to bottom, rgba(212,118,78,0.4), rgba(212,118,78,0.05))' }} />
           {MY_CAREER.map((item,i)=>(
@@ -913,7 +913,7 @@ export default function App() {
 
     case "my-achievements": return (
       <div>
-        <SectionHeader title="Achievements" subtitle="Evidence of effort compounding." isPrivate />
+        <SectionHeader title="Achievements" subtitle="Milestones from work, sport, and projects." isPrivate />
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {MY_ACHIEVEMENTS.map((g,i)=>(
             <div key={i} style={{ background: 'rgba(212,118,78,0.04)', borderRadius: 16, padding: 24, border: '1px solid rgba(212,118,78,0.08)', animation: `fadeUp 0.5s ease ${i*0.08}s both` }}>
@@ -932,7 +932,7 @@ export default function App() {
 
     case "my-failures": return (
       <div>
-        <SectionHeader title="Failures" subtitle="The most important section. Radical self-honesty. Every failure is data." isPrivate />
+        <SectionHeader title="Failures" subtitle="Things that did not work, what I learned, and what I want to do differently." isPrivate />
         <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {MY_FAILURES.map((f,i)=>(
             <div key={i} style={{ background: 'rgba(212,118,78,0.04)', borderRadius: 16, padding: 24, border: '1px solid rgba(212,118,78,0.08)', animation: `fadeUp 0.5s ease ${i*0.08}s both` }}>
