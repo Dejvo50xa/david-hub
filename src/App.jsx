@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 // STYLES HELPER
 // ============================================================
 const F = { serif: 'Cormorant Garamond, Georgia, serif', sans: 'DM Sans, Helvetica Neue, sans-serif' };
-const C = { gold: '#c8a951', orange: '#d4764e', bg: '#08080b', card: 'rgba(255,255,255,0.03)', border: 'rgba(255,255,255,0.06)', text: '#e8e6e1' };
+const C = { gold: 'var(--accent)', orange: 'var(--warm)', bg: 'var(--page-bg)', card: 'rgba(var(--surface-rgb),0.03)', border: 'rgba(var(--surface-rgb),0.06)', text: 'var(--ink)' };
 
 // ============================================================
 // DATA — VIDEOS
@@ -64,14 +64,14 @@ const MINDSET_CATEGORIES = [
     { quote: "Purpose is the place where your deep gladness meets the world's deep need.", author: "Frederick Buechner" },
     { quote: "The meaning of life is to find your gift. The purpose of life is to give it away.", author: "Pablo Picasso" },
   ]},
-  { theme: "Wealth & Freedom", color: "#7ec8a0", quotes: [
+  { theme: "Wealth & Freedom", color: "var(--success)", quotes: [
     { quote: "The goal isn't more money. The goal is living life on your terms.", author: "Chris Brogan" },
     { quote: "Wealth consists not in having great possessions, but in having few wants.", author: "Epictetus" },
     { quote: "Formal education will make you a living; self-education will make you a fortune.", author: "Jim Rohn" },
     { quote: "The best investment you can make is in yourself.", author: "Warren Buffett" },
     { quote: "Rich is having money. Wealthy is having time.", author: "Margaret Bonnano" },
   ]},
-  { theme: "Fear & Courage", color: "#d4764e", quotes: [
+  { theme: "Fear & Courage", color: "var(--warm)", quotes: [
     { quote: "What we fear doing most is usually what we most need to do.", author: "Tim Ferriss" },
     { quote: "Courage is not the absence of fear, but the triumph over it.", author: "Nelson Mandela" },
     { quote: "Everything you want is on the other side of fear.", author: "Jack Canfield" },
@@ -121,8 +121,8 @@ const MINDSET_CATEGORIES = [
 const PHILOSOPHY = [
   { title:"Marcus Aurelius", school:"Stoicism", core:"You have power over your mind — not outside events.", ideas:["Memento mori — death as urgency","The obstacle is the way","Morning premeditatio","Journal as philosophical practice"], color:"#c8a951" },
   { title:"Seneca", school:"Stoicism", core:"We suffer more in imagination than in reality.", ideas:["Premeditatio malorum","Time is the only true wealth","Voluntary discomfort","Letters as thinking tools"], color:"#a0c4ff" },
-  { title:"Epictetus", school:"Stoicism", core:"It's not what happens — it's how you react.", ideas:["Dichotomy of control","We are disturbed by judgments","Freedom through discipline","Character over circumstance"], color:"#7ec8a0" },
-  { title:"Viktor Frankl", school:"Existentialism", core:"Those who have a 'why' can bear any 'how'.", ideas:["Meaning found in suffering","Logotherapy framework","The last human freedom","Tragic optimism"], color:"#d4764e" },
+  { title:"Epictetus", school:"Stoicism", core:"It's not what happens — it's how you react.", ideas:["Dichotomy of control","We are disturbed by judgments","Freedom through discipline","Character over circumstance"], color:"var(--success)" },
+  { title:"Viktor Frankl", school:"Existentialism", core:"Those who have a 'why' can bear any 'how'.", ideas:["Meaning found in suffering","Logotherapy framework","The last human freedom","Tragic optimism"], color:"var(--warm)" },
   { title:"Nassim Taleb", school:"Antifragility", core:"Some things benefit from shocks and disorder.", ideas:["Antifragile > Resilient > Fragile","Barbell strategy","Skin in the game","Via negativa — subtract to grow"], color:"#e86f68" },
   { title:"Naval Ravikant", school:"Modern Wisdom", core:"A calm mind, a fit body, a house full of love.", ideas:["Happiness as a trainable skill","Specific knowledge via curiosity","Read what you love","Desire is suffering's contract"], color:"#b8a9e8" },
   { title:"Miyamoto Musashi", school:"Bushido", core:"There is nothing outside of yourself that can enable you to get better.", ideas:["The Way is in training","Do nothing which is of no use","Know the Ways of all professions","Perceive that which cannot be seen"], color:"#e8c86a" },
@@ -193,8 +193,8 @@ const LONGEVITY_DATA = [
 const SELF_IMPROVEMENT = [
   { title:"Atomic Habits", items:["1% daily = 37x yearly","Environment design > willpower","Habit stacking","Identity-based change: become, don't just do"], color:"#c8a951" },
   { title:"Deep Work", items:["Depth is rare and valuable","90-min deep work blocks","Ritualize the start","Embrace boredom to build attention"], color:"#a0c4ff" },
-  { title:"Mental Models", items:["Inversion: what to avoid","Second-order thinking: then what?","Circle of competence","Map != territory"], color:"#7ec8a0" },
-  { title:"Decision Making", items:["Reversible vs irreversible","10/10/10 rule","Pre-mortem analysis","Satisfice or maximize by type"], color:"#d4764e" },
+  { title:"Mental Models", items:["Inversion: what to avoid","Second-order thinking: then what?","Circle of competence","Map != territory"], color:"var(--success)" },
+  { title:"Decision Making", items:["Reversible vs irreversible","10/10/10 rule","Pre-mortem analysis","Satisfice or maximize by type"], color:"var(--warm)" },
   { title:"Energy Management", items:["Manage energy not time","Ultradian rhythms: 90-min cycles","Strategic recovery is productive","Audit energy drains weekly"], color:"#b8a9e8" },
   { title:"Learning", items:["Feynman technique: teach to learn","Spaced repetition","Interleaving > blocked practice","Sleep consolidates memory"], color:"#e86f68" },
 ];
@@ -279,12 +279,12 @@ function NoteBox({ sectionKey }) {
   useEffect(() => { (async()=>{ try { const r = await window.storage.get(k); if(r?.value) setNote(r.value); } catch{} })(); }, [k]);
   const save = async()=>{ try { await window.storage.set(k, note); setSaved(true); setTimeout(()=>setSaved(false),1500); } catch{} };
   return (
-    <div style={{ marginTop: 32, padding: 20, background: 'rgba(255,255,255,0.02)', borderRadius: 12, border: '1px dashed rgba(255,255,255,0.06)' }}>
+    <div style={{ marginTop: 32, padding: 20, background: 'rgba(var(--surface-rgb),0.02)', borderRadius: 12, border: '1px dashed rgba(var(--surface-rgb),0.06)' }}>
       <div style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: 3, opacity: 0.25, marginBottom: 10 }}>Personal Notes</div>
       <textarea value={note} onChange={e=>setNote(e.target.value)} placeholder="Write your thoughts..."
         style={{ width: '100%', minHeight: 80, background: 'transparent', border: 'none', color: C.text, fontFamily: F.sans, fontSize: 13, resize: 'vertical', outline: 'none', lineHeight: 1.7, opacity: 0.7 }} />
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 10 }}>
-        <button onClick={save} style={{ background: saved ? 'rgba(126,200,160,0.2)' : 'rgba(200,169,81,0.15)', color: saved ? '#7ec8a0' : C.gold, border: '1px solid '+(saved?'rgba(126,200,160,0.3)':'rgba(200,169,81,0.25)'), padding: '7px 20px', borderRadius: 8, fontSize: 11, fontWeight: 600, cursor: 'pointer', letterSpacing: 1, textTransform: 'uppercase', transition: 'all 0.3s' }}>
+        <button onClick={save} style={{ background: saved ? 'rgba(126,200,160,0.2)' : 'rgba(200,169,81,0.15)', color: saved ? 'var(--success)' : C.gold, border: '1px solid '+(saved?'rgba(126,200,160,0.3)':'rgba(200,169,81,0.25)'), padding: '7px 20px', borderRadius: 8, fontSize: 11, fontWeight: 600, cursor: 'pointer', letterSpacing: 1, textTransform: 'uppercase', transition: 'all 0.3s' }}>
           {saved ? "Saved" : "Save"}
         </button>
       </div>
@@ -295,7 +295,7 @@ function NoteBox({ sectionKey }) {
 function CardHover({ children, style, ...props }) {
   return (
     <div style={{ background: C.card, borderRadius: 16, border: '1px solid '+C.border, transition: 'all 0.35s cubic-bezier(0.4,0,0.2,1)', ...style }} {...props}
-      onMouseEnter={e=>{ e.currentTarget.style.transform='translateY(-3px)'; e.currentTarget.style.borderColor='rgba(255,255,255,0.12)'; e.currentTarget.style.boxShadow='0 16px 48px rgba(0,0,0,0.35)'; }}
+      onMouseEnter={e=>{ e.currentTarget.style.transform='translateY(-3px)'; e.currentTarget.style.borderColor='rgba(var(--surface-rgb),0.12)'; e.currentTarget.style.boxShadow='0 16px 48px rgba(0,0,0,0.35)'; }}
       onMouseLeave={e=>{ e.currentTarget.style.transform=''; e.currentTarget.style.borderColor=C.border; e.currentTarget.style.boxShadow=''; }}
     >{children}</div>
   );
@@ -306,14 +306,14 @@ function CardHover({ children, style, ...props }) {
 // ============================================================
 function VideoCard({ video, index }) {
   const [loaded, setLoaded] = useState(false);
-  const tc = { mindset:"#c8a951", discipline:"#e86f68", vision:"#a0c4ff", wealth:"#7ec8a0", science:"#68c8d4", meaning:"#b8a9e8", philosophy:"#e8c86a", longevity:"#d4764e" };
+  const tc = { mindset:"#c8a951", discipline:"#e86f68", vision:"#a0c4ff", wealth:"var(--success)", science:"#68c8d4", meaning:"#b8a9e8", philosophy:"#e8c86a", longevity:"var(--warm)" };
   return (
     <div style={{ background: C.card, borderRadius: 16, overflow: 'hidden', border: '1px solid '+C.border, transition: 'all 0.35s', animation: `fadeUp 0.5s ease ${index*0.04}s both` }}
       onMouseEnter={e=>{ e.currentTarget.style.transform='translateY(-4px)'; e.currentTarget.style.boxShadow='0 20px 60px rgba(0,0,0,0.4)'; }}
       onMouseLeave={e=>{ e.currentTarget.style.transform=''; e.currentTarget.style.boxShadow=''; }}>
       <div style={{ position: 'relative', paddingTop: '56.25%', background: '#0a0a0a' }}>
         {!loaded ? (
-          <div onClick={()=>setLoaded(true)} style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', background: 'linear-gradient(135deg, rgba(20,20,30,0.9), rgba(10,10,20,0.95))' }}>
+          <div onClick={()=>setLoaded(true)} style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', background: 'linear-gradient(135deg, var(--sidebar-bg), var(--sidebar-bg))' }}>
             <div style={{ width: 52, height: 52, borderRadius: '50%', background: 'rgba(200,169,81,0.15)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid rgba(200,169,81,0.25)' }}>
               <span style={{ fontSize: 18, marginLeft: 2, color: C.gold }}>&#9654;</span>
             </div>
@@ -359,7 +359,7 @@ function FIRECalculator() {
         <span style={{ fontSize: 14, fontFamily: F.serif, color: C.gold }}>{prefix||''}{typeof val==='number'?val.toLocaleString():val}</span>
       </div>
       <input type="range" min={min} max={max} step={step||1} value={val} onChange={e=>set(Number(e.target.value))}
-        style={{ width: '100%', accentColor: C.gold, height: 4, background: 'rgba(255,255,255,0.06)', borderRadius: 4, outline: 'none', cursor: 'pointer' }} />
+        style={{ width: '100%', accentColor: C.gold, height: 4, background: 'rgba(var(--surface-rgb),0.06)', borderRadius: 4, outline: 'none', cursor: 'pointer' }} />
     </div>
   );
 
@@ -383,11 +383,11 @@ function FIRECalculator() {
           <div style={{ fontFamily: F.serif, fontSize: 18, marginBottom: 20, fontWeight: 600 }}>FIRE Dashboard</div>
           {[
             { label: "FI Number (25x expenses)", value: "$"+fiNumber.toLocaleString(), color: C.gold },
-            { label: "Annual Savings", value: "$"+annualSavings.toLocaleString(), color: annualSavings > 0 ? '#7ec8a0' : '#e86f68' },
-            { label: "Savings Rate", value: sr.toFixed(1)+"%", color: sr >= 50 ? '#7ec8a0' : sr >= 25 ? C.gold : '#e86f68' },
-            { label: "FI Target Age", value: fiYear ? "Age "+fiYear.age : "50+ years", color: fiYear ? '#7ec8a0' : '#e86f68' },
+            { label: "Annual Savings", value: "$"+annualSavings.toLocaleString(), color: annualSavings > 0 ? 'var(--success)' : '#e86f68' },
+            { label: "Savings Rate", value: sr.toFixed(1)+"%", color: sr >= 50 ? 'var(--success)' : sr >= 25 ? C.gold : '#e86f68' },
+            { label: "FI Target Age", value: fiYear ? "Age "+fiYear.age : "50+ years", color: fiYear ? 'var(--success)' : '#e86f68' },
           ].map((m,i) => (
-            <div key={i} style={{ padding: '14px 18px', background: 'rgba(255,255,255,0.02)', borderRadius: 10, marginBottom: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div key={i} style={{ padding: '14px 18px', background: 'rgba(var(--surface-rgb),0.02)', borderRadius: 10, marginBottom: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: 12, opacity: 0.4 }}>{m.label}</span>
               <span style={{ fontFamily: F.serif, fontSize: 18, fontWeight: 600, color: m.color }}>{m.value}</span>
             </div>
@@ -403,13 +403,13 @@ function FIRECalculator() {
         <div style={{ fontFamily: F.serif, fontSize: 18, marginBottom: 16, fontWeight: 600 }}>Growth Projection</div>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(120px, 1fr))', gap: 10 }}>
           {projections.map((p,i) => (
-            <div key={i} style={{ padding: '16px 14px', background: p.fiReached ? 'rgba(126,200,160,0.06)' : 'rgba(255,255,255,0.02)', borderRadius: 12, textAlign: 'center', border: '1px solid '+(p.fiReached?'rgba(126,200,160,0.15)':C.border), animation: `fadeUp 0.4s ease ${i*0.05}s both` }}>
+            <div key={i} style={{ padding: '16px 14px', background: p.fiReached ? 'rgba(126,200,160,0.06)' : 'rgba(var(--surface-rgb),0.02)', borderRadius: 12, textAlign: 'center', border: '1px solid '+(p.fiReached?'rgba(126,200,160,0.15)':C.border), animation: `fadeUp 0.4s ease ${i*0.05}s both` }}>
               <div style={{ fontSize: 9, textTransform: 'uppercase', letterSpacing: 2, opacity: 0.3, marginBottom: 6 }}>{p.year} Years</div>
-              <div style={{ fontFamily: F.serif, fontSize: 20, fontWeight: 600, color: p.fiReached ? '#7ec8a0' : C.text }}>
+              <div style={{ fontFamily: F.serif, fontSize: 20, fontWeight: 600, color: p.fiReached ? 'var(--success)' : C.text }}>
                 ${fmt(p.value)}
               </div>
               <div style={{ fontSize: 10, opacity: 0.25, marginTop: 4 }}>Age {p.age}</div>
-              {p.fiReached && <div style={{ fontSize: 9, color: '#7ec8a0', marginTop: 6, textTransform: 'uppercase', letterSpacing: 1 }}>FI Reached</div>}
+              {p.fiReached && <div style={{ fontSize: 9, color: 'var(--success)', marginTop: 6, textTransform: 'uppercase', letterSpacing: 1 }}>FI Reached</div>}
             </div>
           ))}
         </div>
@@ -490,7 +490,7 @@ function InvestmentCalculator() {
     </div>
   );
 
-  const colors = { stocks: '#7ec8a0', crypto: '#e8c86a', bonds: '#a0c4ff', realEstate: '#b8a9e8', debt: '#e86f68' };
+  const colors = { stocks: 'var(--success)', crypto: '#e8c86a', bonds: '#a0c4ff', realEstate: '#b8a9e8', debt: '#e86f68' };
 
   return (
     <div>
@@ -517,7 +517,7 @@ function InvestmentCalculator() {
 
           <div style={{ marginTop: 16, padding: '14px 16px', background: 'rgba(200,169,81,0.06)', borderRadius: 10 }}>
             <div style={{ fontSize: 10, textTransform: 'uppercase', letterSpacing: 2, opacity: 0.3, marginBottom: 6 }}>Net Worth Today</div>
-            <div style={{ fontFamily: F.serif, fontSize: 24, fontWeight: 600, color: totalNow >= 0 ? '#7ec8a0' : '#e86f68' }}>
+            <div style={{ fontFamily: F.serif, fontSize: 24, fontWeight: 600, color: totalNow >= 0 ? 'var(--success)' : '#e86f68' }}>
               {fmt(totalNow)}
             </div>
           </div>
@@ -539,7 +539,7 @@ function InvestmentCalculator() {
         <div style={{ fontFamily: F.serif, fontSize: 16, marginBottom: 16, fontWeight: 600 }}>Portfolio Projection</div>
         <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 12 }}>
           <thead>
-            <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+            <tr style={{ borderBottom: '1px solid rgba(var(--surface-rgb),0.06)' }}>
               {['Years','Stocks','Crypto','Bonds','Real Estate','Debt','Net Total'].map((h,i)=>(
                 <th key={i} style={{ padding: '8px 6px', textAlign: i===0?'left':'right', fontSize: 9, textTransform: 'uppercase', letterSpacing: 2, opacity: 0.3, fontWeight: 500 }}>{h}</th>
               ))}
@@ -547,14 +547,14 @@ function InvestmentCalculator() {
           </thead>
           <tbody>
             {data.map((r,i)=>(
-              <tr key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.03)', animation: `fadeUp 0.3s ease ${i*0.05}s both` }}>
+              <tr key={i} style={{ borderBottom: '1px solid rgba(var(--surface-rgb),0.03)', animation: `fadeUp 0.3s ease ${i*0.05}s both` }}>
                 <td style={{ padding: '10px 6px', fontFamily: F.serif, fontWeight: 600, opacity: 0.7 }}>{r.year}y</td>
                 <td style={{ padding: '10px 6px', textAlign: 'right', color: colors.stocks }}>{fmt(r.stocks)}</td>
                 <td style={{ padding: '10px 6px', textAlign: 'right', color: colors.crypto }}>{fmt(r.crypto)}</td>
                 <td style={{ padding: '10px 6px', textAlign: 'right', color: colors.bonds }}>{fmt(r.bonds)}</td>
                 <td style={{ padding: '10px 6px', textAlign: 'right', color: colors.realEstate }}>{fmt(r.realEstate)}</td>
                 <td style={{ padding: '10px 6px', textAlign: 'right', color: colors.debt }}>{r.debt>0?'-'+fmt(r.debt):'$0'}</td>
-                <td style={{ padding: '10px 6px', textAlign: 'right', fontFamily: F.serif, fontWeight: 700, fontSize: 14, color: r.total>=0?'#7ec8a0':'#e86f68' }}>{fmt(r.total)}</td>
+                <td style={{ padding: '10px 6px', textAlign: 'right', fontFamily: F.serif, fontWeight: 700, fontSize: 14, color: r.total>=0?'var(--success)':'#e86f68' }}>{fmt(r.total)}</td>
               </tr>
             ))}
           </tbody>
@@ -639,7 +639,7 @@ function PhiloCard({ card, index }) {
       </div>
       <div style={{ marginTop: 14, fontFamily: F.serif, fontSize: 15, opacity: 0.55, fontStyle: 'italic', lineHeight: 1.6 }}>{card.core}</div>
       {open && (
-        <div style={{ marginTop: 18, paddingTop: 16, borderTop: '1px solid rgba(255,255,255,0.04)' }}>
+        <div style={{ marginTop: 18, paddingTop: 16, borderTop: '1px solid rgba(var(--surface-rgb),0.04)' }}>
           {card.ideas.map((idea,i)=>(
             <div key={i} style={{ fontSize: 13, opacity: 0.45, padding: '5px 0 5px 14px', borderLeft: `1px solid ${card.color}25`, marginBottom: 4 }}>{idea}</div>
           ))}
@@ -675,6 +675,13 @@ const NAV_PRIVATE = [
 // MAIN APP
 // ============================================================
 export default function App() {
+  const [theme, setTheme] = useState(() => {
+    try { return localStorage.getItem('david-hub-theme') === 'light' ? 'light' : 'dark'; } catch { return 'dark'; }
+  });
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme;
+    try { localStorage.setItem('david-hub-theme', theme); } catch { /* Storage may be unavailable. */ }
+  }, [theme]);
   const [secret, setSecret] = useState(false);
   const [active, setActive] = useState("home");
   const [videoFilter, setVideoFilter] = useState("all");
@@ -718,8 +725,8 @@ export default function App() {
             <button key={t} onClick={()=>setVideoFilter(t)} style={{
               padding: '6px 14px', borderRadius: 20, fontSize: 11, fontWeight: 600, letterSpacing: 1, textTransform: 'uppercase', cursor: 'pointer', transition: 'all 0.3s', border: '1px solid',
               background: videoFilter===t ? 'rgba(200,169,81,0.15)' : 'transparent',
-              color: videoFilter===t ? C.gold : 'rgba(232,230,225,0.35)',
-              borderColor: videoFilter===t ? 'rgba(200,169,81,0.3)' : 'rgba(255,255,255,0.06)',
+              color: videoFilter===t ? C.gold : 'rgba(var(--ink-rgb),0.35)',
+              borderColor: videoFilter===t ? 'rgba(200,169,81,0.3)' : 'rgba(var(--surface-rgb),0.06)',
             }}>{t}</button>
           ))}
         </div>
@@ -739,8 +746,8 @@ export default function App() {
             <button key={i} onClick={()=>setMindsetCat(i)} style={{
               padding: '6px 14px', borderRadius: 20, fontSize: 10, fontWeight: 600, letterSpacing: 1, textTransform: 'uppercase', cursor: 'pointer', transition: 'all 0.3s',
               border: '1px solid', background: mindsetCat===i ? cat.color+'20' : 'transparent',
-              color: mindsetCat===i ? cat.color : 'rgba(232,230,225,0.3)',
-              borderColor: mindsetCat===i ? cat.color+'40' : 'rgba(255,255,255,0.06)',
+              color: mindsetCat===i ? cat.color : 'rgba(var(--ink-rgb),0.3)',
+              borderColor: mindsetCat===i ? cat.color+'40' : 'rgba(var(--surface-rgb),0.06)',
             }}>{cat.theme}</button>
           ))}
         </div>
@@ -950,13 +957,14 @@ export default function App() {
     <div className="hub-shell" style={{ fontFamily: F.sans, background: C.bg, color: C.text, minHeight: '100vh', display: 'flex', position: 'relative' }}>
       <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-      <button aria-label="Otevřít navigaci" aria-expanded={sidebarOpen} onClick={()=>setSidebarOpen(!sidebarOpen)} className="mob-btn" style={{ display: 'none', position: 'fixed', top: 14, left: 14, zIndex: 1001, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '10px 14px', color: C.text, cursor: 'pointer', fontSize: 16, backdropFilter: 'blur(12px)' }}>{"\u2630"}</button>
+      <button aria-label="Otevřít navigaci" aria-expanded={sidebarOpen} onClick={()=>setSidebarOpen(!sidebarOpen)} className="mob-btn" style={{ display: 'none', position: 'fixed', top: 14, left: 14, zIndex: 1001, background: 'rgba(var(--surface-rgb),0.05)', border: '1px solid rgba(var(--surface-rgb),0.08)', borderRadius: 10, padding: '10px 14px', color: C.text, cursor: 'pointer', fontSize: 16, backdropFilter: 'blur(12px)' }}>{"\u2630"}</button>
 
       {sidebarOpen && <div onClick={()=>setSidebarOpen(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 998, backdropFilter: 'blur(4px)' }} />}
 
+      <button className="theme-toggle" aria-label={theme === 'dark' ? 'Zapnout světlý vzhled' : 'Zapnout tmavý vzhled'} onClick={() => setTheme(t => t === 'dark' ? 'light' : 'dark')}><span aria-hidden="true">{theme === 'dark' ? '☀' : '☾'}</span> {theme === 'dark' ? 'Světlý vzhled' : 'Tmavý vzhled'}</button>
       {/* Sidebar */}
       <div className={`sidebar ${sidebarOpen?'open':''}`} style={{
-        width: 220, minHeight: '100vh', background: 'rgba(12,12,16,0.95)', borderRight: '1px solid rgba(255,255,255,0.04)',
+        width: 220, minHeight: '100vh', background: 'var(--sidebar-bg)', borderRight: '1px solid rgba(var(--surface-rgb),0.04)',
         padding: '28px 14px', display: 'flex', flexDirection: 'column', position: 'sticky', top: 0,
         height: '100vh', overflowY: 'auto', flexShrink: 0, backdropFilter: 'blur(20px)', zIndex: 999,
       }}>
@@ -972,10 +980,10 @@ export default function App() {
               padding: '8px 12px', borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 400,
               marginBottom: 1, display: 'flex', alignItems: 'center', gap: 10, transition: 'all 0.25s',
               background: active===s.id ? 'rgba(200,169,81,0.08)' : 'transparent',
-              color: active===s.id ? C.gold : 'rgba(232,230,225,0.35)',
+              color: active===s.id ? C.gold : 'rgba(var(--ink-rgb),0.35)',
             }}
-              onMouseEnter={e=>{ if(active!==s.id) e.currentTarget.style.color='rgba(232,230,225,0.6)'; }}
-              onMouseLeave={e=>{ if(active!==s.id) e.currentTarget.style.color='rgba(232,230,225,0.35)'; }}>
+              onMouseEnter={e=>{ if(active!==s.id) e.currentTarget.style.color='rgba(var(--ink-rgb),0.6)'; }}
+              onMouseLeave={e=>{ if(active!==s.id) e.currentTarget.style.color='rgba(var(--ink-rgb),0.35)'; }}>
               <span style={{ fontSize: 12, width: 18, textAlign: 'center', opacity: 0.6 }}>{s.icon}</span>{s.label}
             </button>
           ))}
@@ -988,7 +996,7 @@ export default function App() {
                   padding: '8px 12px', borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 400,
                   marginBottom: 1, display: 'flex', alignItems: 'center', gap: 10, transition: 'all 0.25s',
                   background: active===s.id ? 'rgba(212,118,78,0.1)' : 'transparent',
-                  color: active===s.id ? C.orange : 'rgba(232,230,225,0.3)',
+                  color: active===s.id ? C.orange : 'rgba(var(--ink-rgb),0.3)',
                 }}>
                   <span style={{ fontSize: 12, width: 18, textAlign: 'center', opacity: 0.6 }}>{s.icon}</span>{s.label}
                 </button>
@@ -1017,9 +1025,9 @@ export default function App() {
         }
         ::-webkit-scrollbar { width:4px; }
         ::-webkit-scrollbar-track { background:transparent; }
-        ::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.06); border-radius:4px; }
+        ::-webkit-scrollbar-thumb { background:rgba(var(--surface-rgb),0.06); border-radius:4px; }
         ::selection { background:rgba(200,169,81,0.25); }
-        input[type=range] { -webkit-appearance:none; appearance:none; background:rgba(255,255,255,0.06); border-radius:4px; outline:none; cursor:pointer; }
+        input[type=range] { -webkit-appearance:none; appearance:none; background:rgba(var(--surface-rgb),0.06); border-radius:4px; outline:none; cursor:pointer; }
         input[type=range]::-webkit-slider-thumb { -webkit-appearance:none; width:14px; height:14px; border-radius:50%; background:#c8a951; cursor:pointer; border:2px solid #08080b; }
       `}</style>
     </div>
