@@ -676,7 +676,7 @@ const NAV_PRIVATE = [
 // ============================================================
 export default function App() {
   const [secret, setSecret] = useState(false);
-  const [active, setActive] = useState("motivation");
+  const [active, setActive] = useState("home");
   const [videoFilter, setVideoFilter] = useState("all");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [mindsetCat, setMindsetCat] = useState(0);
@@ -690,11 +690,25 @@ export default function App() {
     timerRef.current = setTimeout(() => { clickRef.current = 0; }, 1200);
   }, []);
 
+  useEffect(() => { window.scrollTo({top:0}); }, [active]);
+
   const isPrivate = NAV_PRIVATE.some(s=>s.id===active);
   const filteredVideos = videoFilter === "all" ? VIDEOS : VIDEOS.filter(v => v.tag === videoFilter);
 
   const renderSection = () => {
     switch(active) {
+    case "home": return <div className="home-dashboard">
+      <div className="home-topline"><span>DAVID / PERSONAL HUB</span><a href="https://david-roadmap.vercel.app/">Rozcestník ↗</a></div>
+      <section className="hub-hero"><div className="hero-shade"/><div className="hub-hero-copy"><span>PROSTOR PRO KAŽDODENNÍ POSUN</span><h1>Žít naplno.<br/><em>Růst vědomě.</em></h1><p>Inspirace, pohyb a dlouhodobé cíle. Všechno, k čemu se chci vracet, na jednom místě.</p><button onClick={()=>setActive('motivation')}>Najít dnešní inspiraci ↗</button></div></section>
+      <div className="home-section-title"><h2>Vyber svůj směr</h2><span>Malý krok. Každý den.</span></div>
+      <div className="home-paths">{[
+        {id:'mindset',title:'Klidná mysl',detail:'Mindset & filozofie',image:'forest'},
+        {id:'training',title:'Silnější tělo',detail:'Trénink & pohyb',image:'mountains'},
+        {id:'longevity',title:'Dlouhý horizont',detail:'Zdraví & longevity',image:'lake'}
+      ].map(item=><button className="home-path" key={item.id} onClick={()=>setActive(item.id)}><img src={'/images/'+item.image+'.jpg'} alt=""/><span><small>{item.detail}</small><strong>{item.title}</strong></span><b>↗</b></button>)}</div>
+      <div className="home-utilities"><div><small>MYŠLENÍ V SOUVISLOSTECH</small><h2>Dnešní rozhodnutí.<br/>Budoucí svoboda.</h2></div><button onClick={()=>setActive('fire-calc')}>FIRE kalkulačka ↗</button><button onClick={()=>setActive('books')}>Moje knihovna ↗</button></div>
+    </div>;
+
 
     case "motivation": return (
       <div>
@@ -933,10 +947,10 @@ export default function App() {
   };
 
   return (
-    <div style={{ fontFamily: F.sans, background: C.bg, color: C.text, minHeight: '100vh', display: 'flex', position: 'relative' }}>
+    <div className="hub-shell" style={{ fontFamily: F.sans, background: C.bg, color: C.text, minHeight: '100vh', display: 'flex', position: 'relative' }}>
       <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
 
-      <button onClick={()=>setSidebarOpen(!sidebarOpen)} className="mob-btn" style={{ display: 'none', position: 'fixed', top: 14, left: 14, zIndex: 1001, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '10px 14px', color: C.text, cursor: 'pointer', fontSize: 16, backdropFilter: 'blur(12px)' }}>{"\u2630"}</button>
+      <button aria-label="Otevřít navigaci" aria-expanded={sidebarOpen} onClick={()=>setSidebarOpen(!sidebarOpen)} className="mob-btn" style={{ display: 'none', position: 'fixed', top: 14, left: 14, zIndex: 1001, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: 10, padding: '10px 14px', color: C.text, cursor: 'pointer', fontSize: 16, backdropFilter: 'blur(12px)' }}>{"\u2630"}</button>
 
       {sidebarOpen && <div onClick={()=>setSidebarOpen(false)} style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 998, backdropFilter: 'blur(4px)' }} />}
 
@@ -953,8 +967,8 @@ export default function App() {
 
         <div style={{ flex: 1 }}>
           <div style={{ fontSize: 8, textTransform: 'uppercase', letterSpacing: 4, opacity: 0.15, padding: '0 10px', marginBottom: 10 }}>Explore</div>
-          {NAV_PUBLIC.map(s=>(
-            <div key={s.id} onClick={()=>{ setActive(s.id); setSidebarOpen(false); }} style={{
+          {[{id:'home',label:'Přehled',icon:'◈'},...NAV_PUBLIC].map(s=>(
+            <button type="button" className="nav-item" aria-current={active===s.id?"page":undefined} key={s.id} onClick={()=>{ setActive(s.id); setSidebarOpen(false); window.scrollTo({top:0}); }} style={{
               padding: '8px 12px', borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 400,
               marginBottom: 1, display: 'flex', alignItems: 'center', gap: 10, transition: 'all 0.25s',
               background: active===s.id ? 'rgba(200,169,81,0.08)' : 'transparent',
@@ -963,21 +977,21 @@ export default function App() {
               onMouseEnter={e=>{ if(active!==s.id) e.currentTarget.style.color='rgba(232,230,225,0.6)'; }}
               onMouseLeave={e=>{ if(active!==s.id) e.currentTarget.style.color='rgba(232,230,225,0.35)'; }}>
               <span style={{ fontSize: 12, width: 18, textAlign: 'center', opacity: 0.6 }}>{s.icon}</span>{s.label}
-            </div>
+            </button>
           ))}
 
           {secret && (
             <>
               <div style={{ fontSize: 8, textTransform: 'uppercase', letterSpacing: 4, opacity: 0.15, padding: '0 10px', marginTop: 24, marginBottom: 10, color: C.orange }}>Private</div>
               {NAV_PRIVATE.map(s=>(
-                <div key={s.id} onClick={()=>{ setActive(s.id); setSidebarOpen(false); }} style={{
+                <button type="button" className="nav-item" aria-current={active===s.id?"page":undefined} key={s.id} onClick={()=>{ setActive(s.id); setSidebarOpen(false); window.scrollTo({top:0}); }} style={{
                   padding: '8px 12px', borderRadius: 10, cursor: 'pointer', fontSize: 13, fontWeight: 400,
                   marginBottom: 1, display: 'flex', alignItems: 'center', gap: 10, transition: 'all 0.25s',
                   background: active===s.id ? 'rgba(212,118,78,0.1)' : 'transparent',
                   color: active===s.id ? C.orange : 'rgba(232,230,225,0.3)',
                 }}>
                   <span style={{ fontSize: 12, width: 18, textAlign: 'center', opacity: 0.6 }}>{s.icon}</span>{s.label}
-                </div>
+                </button>
               ))}
             </>
           )}
